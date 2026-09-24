@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  {{- with .Values.deployment.products }}
+  name: {{ .deploymentName }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      {{- include "products.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "products.labels" . | nindent 8 }}
+        {{- include "common.labels" $ | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .containerName }}
+        image: {{ .imageName }}:{{ .imageTag | default "latest" }}
+        imagePullPolicy: {{ .imagePullPolicy }}
+        ports:
+        - containerPort: {{ .containerPort }}
+  {{- end}}      

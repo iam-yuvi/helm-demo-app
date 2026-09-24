@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.users.serviceName }}
+spec:
+  type: {{ .Values.service.users.serviceType }}
+  selector:
+    {{- include "users.labels" . | nindent 4 }}
+  ports:
+    - protocol: {{ .Values.service.users.serviceProtocol }}
+      port: {{ .Values.service.users.servicePort }}
+      targetPort: {{ .Values.service.users.serviceTargetPort }}
+      nodePort: {{ .Values.service.users.serviceNodePort }}

@@ -1,0 +1,38 @@
+services:
+  users-service:
+    image: users-img:latest
+    container_name: users-service
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    networks:
+      - app-network
+
+  products-service:
+    image: product-img:latest
+    container_name: products-service
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+    networks:
+      - app-network
+
+  gateway-service:
+    image: gateway-img:latest
+    container_name: gateway-service
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - USERS_SERVICE_URL=http://users-service:3001
+      - PRODUCTS_SERVICE_URL=http://products-service:3002
+    depends_on:
+      - users-service
+      - products-service
+    networks:
+      - app-network
+
+networks:
+  app-network:

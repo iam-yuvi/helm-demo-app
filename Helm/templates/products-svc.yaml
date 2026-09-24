@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  {{- with .Values.service.products }}
+  name: {{ .serviceName }}
+spec:
+  type: {{ .serviceType }}
+  selector:
+    {{- include "products.labels" . | nindent 4 }}
+  ports:
+    - protocol: {{ .serviceProtocol }}
+      port: {{ .servicePort }}
+      targetPort: {{ .serviceTargetPort }}
+      {{- if .serviceNodePort.enabled }}
+      nodePort: {{ .serviceNodePort.port }}
+      {{- end }} 
+  {{- end }}   

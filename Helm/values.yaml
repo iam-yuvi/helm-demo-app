@@ -1,0 +1,59 @@
+
+deployment:
+  gateway:
+    deploymentName: gateway-deployment
+    replicas: 1
+    containerName: gateway-cont
+    imageName: gateway-img
+    imageTag: latest
+    imagePullPolicy: IfNotPresent
+    containerPort: 3000
+
+  users:
+    deploymentName: users-deployment
+    replicas: 1
+    containerName: users-cont
+    imageName: users-img
+    imageTag: latest
+    imagePullPolicy: IfNotPresent
+    containerPort: 3001
+
+  products:
+    deploymentName: products-deployment
+    replicas: 1
+    containerName: products-cont
+    imageName: product-img
+    imageTag: latest
+    imagePullPolicy: IfNotPresent 
+    containerPort: 3002
+
+service:
+  gateway:
+    serviceName: gateway-service
+    serviceType: NodePort
+    serviceProtocol: TCP
+    servicePort: 3000
+    serviceTargetPort: 3000
+    serviceNodePort: 30000
+  
+  users:
+    serviceName: users-service
+    serviceType: NodePort
+    serviceProtocol: TCP
+    servicePort: 3001
+    serviceTargetPort: 3001
+    serviceNodePort: 30001
+
+  products:
+    serviceName: products-service
+    serviceType: NodePort
+    serviceProtocol: TCP
+    servicePort: 3002
+    serviceTargetPort: 3002
+    serviceNodePort:
+      enabled: True
+      port: 30002
+
+commonEnv:
+  name: myapp
+  value: helmy
